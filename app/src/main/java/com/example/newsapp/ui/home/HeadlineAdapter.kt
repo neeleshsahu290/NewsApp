@@ -2,25 +2,20 @@ package com.example.newsapp.ui.home
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnLongClickListener
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.activity.WebView
 import com.example.newsapp.databinding.HeadlineItemBinding
 import com.example.newsapp.models.Article
-import com.example.newsapp.utility.Constants
-import com.example.newsapp.utility.Utility
-import com.example.newsapp.utility.imageFromUrl
-import com.example.newsapp.utility.toastMsg
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import com.example.newsapp.utility.*
+import java.util.*
+
 
 class HeadlineAdapter(
     private val context: Context,
@@ -57,8 +52,14 @@ class HeadlineAdapter(
 
         }
 
-    //    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        holder.binding.headlineImg.setOnLongClickListener {
+            context.saveImage(item.urlToImage.toString())
+            true
+        }
 
+
+
+        item.publishedAt?.let { holder.binding.txtDate.timeConvertFromString(it) }
 
         holder.itemView.setOnClickListener {
             val url = item.url
@@ -87,6 +88,7 @@ class HeadlineAdapter(
 
     interface onHeadlineAdapterClicked {
         fun onShareButtonClicked(url: String)
+
     }
 
 
